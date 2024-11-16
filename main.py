@@ -1,4 +1,4 @@
-from func import *
+from functions import *
 
 
 # Get the directory of the current script
@@ -18,7 +18,14 @@ except Exception as e:
 
 
 t=yf.Tickers(symbols)
+first_loop= True
+
 
 while True:
-    tickprint(symbols,t)
-
+    if first_loop:
+        table=data_request(first_loop,symbols,t)
+        first_loop=False
+    table=data_request(first_loop,symbols,t)
+    df = pd.DataFrame(table)
+    print_table_in_place(df)
+    time.sleep(0.5)
