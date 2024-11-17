@@ -33,8 +33,8 @@ def data_request(first_loop:bool,symbols:list,t):
             asset=t.tickers[s].fast_info
 
             if data["type"][i] =="CURRENCY":
-                data["price"][i]= round(asset["lastPrice"],5)
-                data["pl"][i]= round(asset["lastPrice"] - asset["open"],5)
+                data["price"][i]= round(asset["lastPrice"],7)
+                data["pl"][i]= round(asset["lastPrice"] - asset["open"],7)
             else:
                 data["price"][i]= round(asset["lastPrice"],2)
                 data["pl"][i]= round(asset["lastPrice"] - asset["open"],2)
@@ -43,7 +43,7 @@ def data_request(first_loop:bool,symbols:list,t):
 
 def print_table_in_place(df):
     colored_df = df.apply(colorize_row, axis=1)
-    table = tabulate(colored_df, headers="keys", tablefmt="grid",showindex=False)
+    table = tabulate(colored_df, headers="keys", tablefmt="rounded_grid",showindex=False,stralign="left")
     os.system('cls' if os.name == 'nt' else 'clear')  # Clear the terminal
     print(table)
 

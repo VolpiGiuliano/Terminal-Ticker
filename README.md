@@ -6,9 +6,11 @@
 - [ ] Create __init__
 - [ ] test on Linux
 - [ ] implement docker
-- [ ] if currency round 4
+- [X] if currency round 4
 - [ ] separate (colors) different assets
-- [ ] try the pandas tab form
+- [X] try the pandas tab form
+- [ ] Format header
+- [ ] resolve warning
   
 ### optimisation
-Data values like ticker symbol, currency and type are fixed so there is no need to call them a second time
+- Data values like ticker symbol, currency and type are fixed so there is no need to call them a second time 

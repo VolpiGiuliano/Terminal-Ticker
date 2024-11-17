@@ -10,7 +10,6 @@ file_path = os.path.join(script_dir, "portfolio.txt")
 try:
     with open(file_path, "r", encoding="utf-8") as file:
         symbols = [line.strip() for line in file]
-    #print(symbols)
 except FileNotFoundError:
     print(f"Error: The file '{file_path}' was not found.")
 except Exception as e:
@@ -28,4 +27,4 @@ while True:
     table=data_request(first_loop,symbols,t)
     df = pd.DataFrame(table)
     print_table_in_place(df)
-    time.sleep(0.5)
+    time.sleep(0.7)
