@@ -1,6 +1,5 @@
 from functions import *
 
-
 # Get the directory of the current script
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -20,11 +19,8 @@ t=yf.Tickers(symbols)
 first_loop= True
 
 
-while True:
-    if first_loop:
-        table=data_request(first_loop,symbols,t)
-        first_loop=False
-    table=data_request(first_loop,symbols,t)
-    df = pd.DataFrame(table)
-    print_table_in_place(df)
-    time.sleep(0.7)
+with Live(generate_table(symbols,t), refresh_per_second=4) as live:
+    while True:
+        time.sleep(0.4)
+        t=yf.Tickers(symbols)
+        live.update(generate_table(symbols,t))

@@ -1,52 +1,28 @@
 import os
 import time
 import yfinance as yf
-from tabulate import tabulate
-from colorama import Fore, Style
-import pandas as pd
-
-data= {
-    
-    "tickers":[],
-    "price":[],
-    "pl":[],
-    "currency":[],
-    "type":[]       
-}
+from rich.live import Live
+from rich.table import Table
 
 
-def data_request(first_loop:bool,symbols:list,t):
 
-    if first_loop:
-        for s in symbols:
-            asset=t.tickers[s].fast_info
-            data["tickers"].append(s)
-            data["price"].append(asset["lastPrice"])
-            data["pl"].append(asset["lastPrice"]-asset["open"])
-            data["currency"].append(asset["currency"])
-            data["type"].append(asset["quoteType"])
+def generate_table(tickers,t) -> Table:
+    """Make a new table."""
+    table = Table()
+    table.add_column("Tickers", justify="left", style="cyan", no_wrap=True)
+    table.add_column("Price", justify="left", style="cyan", no_wrap=True)
+    table.add_column("PL", justify="left", style="cyan", no_wrap=True)
+    table.add_column("Currency", justify="left", style="cyan", no_wrap=True)
+    table.add_column("Type", justify="left", style="cyan", no_wrap=True)
 
-        return data
-    
-    elif first_loop==False:
-        for i, s in enumerate(symbols):
-            asset=t.tickers[s].fast_info
-
-            if data["type"][i] =="CURRENCY":
-                data["price"][i]= round(asset["lastPrice"],7)
-                data["pl"][i]= round(asset["lastPrice"] - asset["open"],7)
-            else:
-                data["price"][i]= round(asset["lastPrice"],2)
-                data["pl"][i]= round(asset["lastPrice"] - asset["open"],2)
-        return data
-
-
-def print_table_in_place(df):
-    colored_df = df.apply(colorize_row, axis=1)
-    table = tabulate(colored_df, headers="keys", tablefmt="rounded_grid",showindex=False,stralign="left")
-    os.system('cls' if os.name == 'nt' else 'clear')  # Clear the terminal
-    print(table)
-
-def colorize_row(row):
-    row['pl'] = f"{Fore.GREEN}{row['pl']}{Style.RESET_ALL}" if row['pl'] >= 0 else f"{Fore.RED}{row['pl']}{Style.RESET_ALL}" 
-    return row
+    for _,symbol in enumerate(tickers):
+        asset=t.tickers[symbol].fast_info
+        pl= round(asset["lastPrice"]-asset["open"],2)
+        table.add_row(
+            #f"{row}", f"{value:3.2f}", "[red]ERROR" if value < 50 else "[green]SUCCESS"
+            f"{symbol}",f"{round(asset['lastPrice'],2)}",
+            f"[red]{pl}"if pl<0 else f"[green]{pl}",
+            asset["currency"],
+            asset["quoteType"]
+        )
+    return table

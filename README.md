@@ -1,16 +1,22 @@
 # Terminal-Ticker
+Terminal aplication 
 ## To Do
 - [ ] Decoration prices ($,arrows)
 - [ ] How to exit
-- [ ] Test if ticker exist
+- [X] Test if ticker exist
 - [ ] Create __init__
 - [ ] test on Linux
 - [ ] implement docker
-- [X] if currency round 4
+- [ ] if currency round 4
 - [ ] separate (colors) different assets
 - [X] try the pandas tab form
 - [ ] Format header
 - [ ] resolve warning
+- [ ] add % pl
   
-### optimisation
+### Optimisation
 - Data values like ticker symbol, currency and type are fixed so there is no need to call them a second time 
+- 
+  
+### Rich
+https://rich.readthedocs.io/en/stable/index.html 
