@@ -5,6 +5,22 @@ from rich.live import Live
 from rich.table import Table
 
 
+def textreader(file_name:str):
+    # Get the directory of the current script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Construct the absolute path to the file
+    file_path = os.path.join(script_dir, file_name)
+
+    try:
+        with open(file_path, "r", encoding="utf-8") as file:
+            symbols = [line.strip() for line in file]
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    return symbols
+
 
 def generate_table(tickers,t) -> Table:
     """Make a new table."""
@@ -26,3 +42,18 @@ def generate_table(tickers,t) -> Table:
             asset["quoteType"]
         )
     return table
+
+def main():
+    symbols= textreader('portfolio.txt')
+    t=yf.Tickers(symbols)
+    first_loop= True
+
+    try:
+
+        with Live(generate_table(symbols,t), refresh_per_second=4) as live:
+            while True:
+                time.sleep(0.4)
+                t=yf.Tickers(symbols)
+                live.update(generate_table(symbols,t))
+    except KeyboardInterrupt:
+        print("GOODBYE!")
