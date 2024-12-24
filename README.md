@@ -14,7 +14,8 @@ Terminal aplication
 - [ ] Format header
 - [X] resolve warning
 - [ ] add % pl
-  
+- [ ] Add keyError
+
 ### Optimisation
 - Data values like ticker symbol, currency and type are fixed so there is no need to call them a second time 
   
